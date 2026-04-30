@@ -16,8 +16,13 @@ public:
 	AMyPlayer();
 protected:
 	virtual void BeginPlay() override;
+	
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Camera")
 	TObjectPtr<UCameraComponent> CameraComp;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Weapon")
+	TSubclassOf<AActor> WeaponClass;
+	
+	void EquipWeapon();
 public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
