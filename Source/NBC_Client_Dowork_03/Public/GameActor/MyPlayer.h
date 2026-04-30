@@ -20,8 +20,11 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Camera")
 	TObjectPtr<UCameraComponent> CameraComp;
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category="Mesh")
+	TObjectPtr<USkeletalMeshComponent> SkeletalMeshComp;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Weapon")
 	TSubclassOf<AActor> WeaponClass;
+	
 	
 	void EquipWeapon();
 	void Move(const FInputActionValue& Value);

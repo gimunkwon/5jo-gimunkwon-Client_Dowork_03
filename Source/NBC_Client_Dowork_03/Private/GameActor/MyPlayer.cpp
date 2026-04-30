@@ -13,6 +13,9 @@ AMyPlayer::AMyPlayer()
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComp->SetupAttachment(RootComponent);
 	CameraComp->bUsePawnControlRotation = true;
+	
+	SkeletalMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
+	SkeletalMeshComp->SetupAttachment(CameraComp);
 }
 
 
@@ -52,7 +55,7 @@ void AMyPlayer::EquipWeapon()
 		{
 			UE_LOG(LogTemp,Warning,TEXT("무기 초기화중..."));
 			FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget,true);
-			Weapon->GetWeaponMesh()->AttachToComponent(GetMesh(),AttachmentRules,TEXT("GunSocket"));
+			Weapon->GetWeaponMesh()->AttachToComponent(SkeletalMeshComp,AttachmentRules,TEXT("GunSocket"));
 		}
 	}
 }
