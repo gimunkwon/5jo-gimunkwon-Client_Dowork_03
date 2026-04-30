@@ -104,6 +104,7 @@ void AMyPlayer::Attack()
 		LaunchDir = PC->PlayerCameraManager->GetCameraRotation().Vector();
 	}
 	
+	//TODO::DT로 분리해서 관리
 	int32 PalletCount = 10;
 	float MaxDistance = 1500.f;
 	float SpreadAngel = 5.f;
@@ -129,11 +130,12 @@ void AMyPlayer::Attack()
 			}
 		}
 	}
+	AddGunRecoil();
+}
+
+void AMyPlayer::AddGunRecoil()
+{
+	UE_LOG(LogTemp,Warning,TEXT("총기 반동 로직!!"));
 	
-	
-	
-	
-	
-	
-	
+	AddControllerPitchInput(-3.f);
 }

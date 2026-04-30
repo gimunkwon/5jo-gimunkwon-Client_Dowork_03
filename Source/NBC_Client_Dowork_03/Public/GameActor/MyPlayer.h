@@ -28,11 +28,11 @@ protected:
 	UPROPERTY()
 	TObjectPtr<AMyBaseWeapon> WeaponInst;
 	
-	
 	void EquipWeapon();
 	void Move(const FInputActionValue& Value);
 	void Rotate(const FInputActionValue& Value);
 	void Attack();
+	void AddGunRecoil();
 public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
