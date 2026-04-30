@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "MyPlayer.generated.h"
 
+struct FInputActionValue;
 class UCameraComponent;
 class USpringArmComponent;
 
@@ -23,6 +24,9 @@ protected:
 	TSubclassOf<AActor> WeaponClass;
 	
 	void EquipWeapon();
+	void Move(const FInputActionValue& Value);
+	void Rotate(const FInputActionValue& Value);
+	void Attack();
 public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
