@@ -3,6 +3,8 @@
 #include "Camera/CameraComponent.h"
 #include "NBC_Client_Dowork_03/Public/GameActor/Weapon/MyBaseWeapon.h"
 #include "EnhancedInputComponent.h"
+#include "KismetTraceUtils.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "NBC_Client_Dowork_03/Public/GameActor/Controller/MyPlayerController.h"
 
 
@@ -51,11 +53,12 @@ void AMyPlayer::EquipWeapon()
 {
 	if (WeaponClass)
 	{
-		if (AMyBaseWeapon* Weapon = GetWorld()->SpawnActor<AMyBaseWeapon>(WeaponClass,GetActorLocation(),FRotator::ZeroRotator))
+		WeaponInst = GetWorld()->SpawnActor<AMyBaseWeapon>(WeaponClass,GetActorLocation(),FRotator::ZeroRotator);
+		if (WeaponInst)
 		{
 			UE_LOG(LogTemp,Warning,TEXT("무기 초기화중..."));
 			FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget,true);
-			Weapon->GetWeaponMesh()->AttachToComponent(SkeletalMeshComp,AttachmentRules,TEXT("GunSocket"));
+			WeaponInst->GetWeaponMesh()->AttachToComponent(SkeletalMeshComp,AttachmentRules,TEXT("GunSocket"));
 		}
 	}
 }
@@ -93,4 +96,19 @@ void AMyPlayer::Rotate(const FInputActionValue& Value)
 void AMyPlayer::Attack()
 {
 	UE_LOG(LogTemp,Warning,TEXT("Attack On!!"));
+	
+	FVector Start = WeaponInst->GetWeaponMesh()->GetSocketLocation(TEXT("Muzzle"));
+	FVector LaunchDir;
+	if (AMyPlayerController* PC = Cast<AMyPlayerController>(GetController()))
+	{
+		LaunchDir = PC->PlayerCameraManager->GetCameraRotation().Vector();
+	}
+	float MaxDistance = 1500.f;
+	
+	FVector EndPos = Start + (LaunchDir * MaxDistance);
+	TArray<FHitResult> HitResulits;
+	
+	GetWorld()->LineTraceMultiByChannel(HitResulits,Start,EndPos,ECC_Visibility);
+	DrawDebugLine(GetWorld(),Start,EndPos,FColor::Red,false, 1.f,0,1.f);
+	
 }

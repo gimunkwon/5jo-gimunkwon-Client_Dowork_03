@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "MyPlayer.generated.h"
 
+class AMyBaseWeapon;
 struct FInputActionValue;
 class UCameraComponent;
 class USpringArmComponent;
@@ -24,6 +25,8 @@ protected:
 	TObjectPtr<USkeletalMeshComponent> SkeletalMeshComp;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Weapon")
 	TSubclassOf<AActor> WeaponClass;
+	UPROPERTY()
+	TObjectPtr<AMyBaseWeapon> WeaponInst;
 	
 	
 	void EquipWeapon();
