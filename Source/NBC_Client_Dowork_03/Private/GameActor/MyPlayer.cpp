@@ -3,6 +3,7 @@
 #include "Camera/CameraComponent.h"
 #include "NBC_Client_Dowork_03/Public/GameActor/Weapon/MyBaseWeapon.h"
 #include "EnhancedInputComponent.h"
+#include "NBC_Client_Dowork_03/Public/DataTable/DT_Weapon.h"
 #include "NBC_Client_Dowork_03/Public/GameActor/Controller/MyPlayerController.h"
 
 
@@ -16,10 +17,6 @@ AMyPlayer::AMyPlayer()
 	
 	SkeletalMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
 	SkeletalMeshComp->SetupAttachment(CameraComp);
-	
-	//TODO::DT로 데이터 이전
-	RemainRecoilPitch = 0.f;
-	RecoilSpeed = 20.f;
 }
 
 void AMyPlayer::BeginPlay()
@@ -33,17 +30,7 @@ void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	if (RemainRecoilPitch > 0.f)
-	{
-		float RecoilStep = FMath::FInterpTo(0.f,RemainRecoilPitch,DeltaTime,RecoilSpeed);
-		
-		AddControllerPitchInput(-RecoilStep);
-		
-		RemainRecoilPitch -= RecoilStep;
-		
-		if (FMath::IsNearlyZero(RemainRecoilPitch)) RemainRecoilPitch = 0.f;
-	}
-	
+	InterpRotationByReCoil(DeltaTime);
 }
 
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -70,6 +57,7 @@ void AMyPlayer::EquipWeapon()
 			UE_LOG(LogTemp,Warning,TEXT("무기 초기화중..."));
 			FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget,true);
 			WeaponInst->GetWeaponMesh()->AttachToComponent(SkeletalMeshComp,AttachmentRules,TEXT("GunSocket"));
+			WeaponInst->InitializeWeaponStat();
 		}
 	}
 }
@@ -115,10 +103,16 @@ void AMyPlayer::Attack()
 		LaunchDir = PC->PlayerCameraManager->GetCameraRotation().Vector();
 	}
 	
-	//TODO::DT로 분리해서 관리
-	int32 PalletCount = 10;
-	float MaxDistance = 1500.f;
-	float SpreadAngel = 5.f;
+	int32 PalletCount = 0;
+	float MaxDistance = 0.f,SpreadAngel = 0.f;
+	
+	const static FString ContextString = "InitializeWeaponStat";
+	if (FMyWeapon* WeaponStatRow = WeaponInst->GetWeaponStatRowHandle().GetRow<FMyWeapon>(ContextString))
+	{
+		PalletCount = WeaponStatRow->PalletCount;
+		MaxDistance = WeaponStatRow->MaxDistance;
+		SpreadAngel = WeaponStatRow->SpreadAngle;
+	}
 	
 	for (int32 i = 0; i < PalletCount; i++)
 	{
@@ -146,7 +140,20 @@ void AMyPlayer::Attack()
 
 void AMyPlayer::AddGunRecoil()
 {
-	UE_LOG(LogTemp,Warning,TEXT("총기 반동 로직!!"));
-	
-	RemainRecoilPitch += 3.f;
+	WeaponInst->BaseCoilPitch += WeaponInst->RemainCoilPitch;
+	UE_LOG(LogTemp,Warning,TEXT("RemainColiPitch %f"),WeaponInst->BaseCoilPitch);
+}
+
+void AMyPlayer::InterpRotationByReCoil(float DeltaTime)
+{
+	if (WeaponInst->BaseCoilPitch > 0.f)
+	{
+		float RecoilStep = FMath::FInterpTo(0.f,WeaponInst->BaseCoilPitch,DeltaTime,WeaponInst->RecoilSpeed);
+		
+		AddControllerPitchInput(-RecoilStep);
+		
+		WeaponInst->BaseCoilPitch -= RecoilStep;
+		
+		if (FMath::IsNearlyZero(WeaponInst->BaseCoilPitch)) WeaponInst->BaseCoilPitch = 0.f;
+	}
 }
