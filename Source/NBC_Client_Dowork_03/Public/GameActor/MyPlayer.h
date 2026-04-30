@@ -33,9 +33,8 @@ protected:
 	void Rotate(const FInputActionValue& Value);
 	void Attack();
 	void AddGunRecoil();
-private:
-	float RemainRecoilPitch;
-	float RecoilSpeed;
+	void InterpRotationByReCoil(float DeltaTime);
+
 public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
