@@ -103,12 +103,37 @@ void AMyPlayer::Attack()
 	{
 		LaunchDir = PC->PlayerCameraManager->GetCameraRotation().Vector();
 	}
+	
+	int32 PalletCount = 10;
 	float MaxDistance = 1500.f;
+	float SpreadAngel = 5.f;
 	
-	FVector EndPos = Start + (LaunchDir * MaxDistance);
-	TArray<FHitResult> HitResulits;
+	for (int32 i = 0; i < PalletCount; i++)
+	{
+		FVector RandomDir = FMath::VRandCone(LaunchDir,FMath::DegreesToRadians(SpreadAngel));
+		FVector EndPos = Start + (RandomDir * MaxDistance);
+		
+		TArray<FHitResult> HitResulits;
+		FCollisionQueryParams QueryParams;
+		QueryParams.AddIgnoredActor(this);
+		
+		bool bHit = GetWorld()->LineTraceMultiByChannel(HitResulits,Start,EndPos,ECC_Visibility);
+		
+		DrawDebugLine(GetWorld(),Start,EndPos,FColor::Red,false, 1.f,0,1.f);
+		
+		if (bHit)
+		{
+			for (const auto& Hit : HitResulits)
+			{
+				UE_LOG(LogTemp,Warning,TEXT("Hit Actor : %s"),*Hit.GetActor()->GetName());
+			}
+		}
+	}
 	
-	GetWorld()->LineTraceMultiByChannel(HitResulits,Start,EndPos,ECC_Visibility);
-	DrawDebugLine(GetWorld(),Start,EndPos,FColor::Red,false, 1.f,0,1.f);
+	
+	
+	
+	
+	
 	
 }
