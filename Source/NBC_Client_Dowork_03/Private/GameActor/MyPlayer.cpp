@@ -18,8 +18,11 @@ AMyPlayer::AMyPlayer()
 	
 	SkeletalMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
 	SkeletalMeshComp->SetupAttachment(CameraComp);
+	
+	//TODO::DT로 데이터 이전
+	RemainRecoilPitch = 0.f;
+	RecoilSpeed = 20.f;
 }
-
 
 void AMyPlayer::BeginPlay()
 {
@@ -28,12 +31,22 @@ void AMyPlayer::BeginPlay()
 	EquipWeapon();
 }
 
-
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	if (RemainRecoilPitch > 0.f)
+	{
+		float RecoilStep = FMath::FInterpTo(0.f,RemainRecoilPitch,DeltaTime,RecoilSpeed);
+		
+		AddControllerPitchInput(-RecoilStep);
+		
+		RemainRecoilPitch -= RecoilStep;
+		
+		if (FMath::IsNearlyZero(RemainRecoilPitch)) RemainRecoilPitch = 0.f;
+	}
+	
 }
-
 
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -137,5 +150,5 @@ void AMyPlayer::AddGunRecoil()
 {
 	UE_LOG(LogTemp,Warning,TEXT("총기 반동 로직!!"));
 	
-	AddControllerPitchInput(-3.f);
+	RemainRecoilPitch += 3.f;
 }
