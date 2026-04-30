@@ -16,8 +16,11 @@ AMyPlayer::AMyPlayer()
 	
 	SkeletalMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
 	SkeletalMeshComp->SetupAttachment(CameraComp);
+	
+	//TODO::DT로 데이터 이전
+	RemainRecoilPitch = 0.f;
+	RecoilSpeed = 20.f;
 }
-
 
 void AMyPlayer::BeginPlay()
 {
@@ -26,12 +29,22 @@ void AMyPlayer::BeginPlay()
 	EquipWeapon();
 }
 
-
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	if (RemainRecoilPitch > 0.f)
+	{
+		float RecoilStep = FMath::FInterpTo(0.f,RemainRecoilPitch,DeltaTime,RecoilSpeed);
+		
+		AddControllerPitchInput(-RecoilStep);
+		
+		RemainRecoilPitch -= RecoilStep;
+		
+		if (FMath::IsNearlyZero(RemainRecoilPitch)) RemainRecoilPitch = 0.f;
+	}
+	
 }
-
 
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -51,11 +64,12 @@ void AMyPlayer::EquipWeapon()
 {
 	if (WeaponClass)
 	{
-		if (AMyBaseWeapon* Weapon = GetWorld()->SpawnActor<AMyBaseWeapon>(WeaponClass,GetActorLocation(),FRotator::ZeroRotator))
+		WeaponInst = GetWorld()->SpawnActor<AMyBaseWeapon>(WeaponClass,GetActorLocation(),FRotator::ZeroRotator);
+		if (WeaponInst)
 		{
 			UE_LOG(LogTemp,Warning,TEXT("무기 초기화중..."));
 			FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget,true);
-			Weapon->GetWeaponMesh()->AttachToComponent(SkeletalMeshComp,AttachmentRules,TEXT("GunSocket"));
+			WeaponInst->GetWeaponMesh()->AttachToComponent(SkeletalMeshComp,AttachmentRules,TEXT("GunSocket"));
 		}
 	}
 }
@@ -93,4 +107,46 @@ void AMyPlayer::Rotate(const FInputActionValue& Value)
 void AMyPlayer::Attack()
 {
 	UE_LOG(LogTemp,Warning,TEXT("Attack On!!"));
+	
+	FVector Start = WeaponInst->GetWeaponMesh()->GetSocketLocation(TEXT("Muzzle"));
+	FVector LaunchDir;
+	if (AMyPlayerController* PC = Cast<AMyPlayerController>(GetController()))
+	{
+		LaunchDir = PC->PlayerCameraManager->GetCameraRotation().Vector();
+	}
+	
+	//TODO::DT로 분리해서 관리
+	int32 PalletCount = 10;
+	float MaxDistance = 1500.f;
+	float SpreadAngel = 5.f;
+	
+	for (int32 i = 0; i < PalletCount; i++)
+	{
+		FVector RandomDir = FMath::VRandCone(LaunchDir,FMath::DegreesToRadians(SpreadAngel));
+		FVector EndPos = Start + (RandomDir * MaxDistance);
+		
+		TArray<FHitResult> HitResulits;
+		FCollisionQueryParams QueryParams;
+		QueryParams.AddIgnoredActor(this);
+		
+		bool bHit = GetWorld()->LineTraceMultiByChannel(HitResulits,Start,EndPos,ECC_Visibility);
+		
+		DrawDebugLine(GetWorld(),Start,EndPos,FColor::Red,false, 1.f,0,1.f);
+		
+		if (bHit)
+		{
+			for (const auto& Hit : HitResulits)
+			{
+				UE_LOG(LogTemp,Warning,TEXT("Hit Actor : %s"),*Hit.GetActor()->GetName());
+			}
+		}
+	}
+	AddGunRecoil();
+}
+
+void AMyPlayer::AddGunRecoil()
+{
+	UE_LOG(LogTemp,Warning,TEXT("총기 반동 로직!!"));
+	
+	RemainRecoilPitch += 3.f;
 }

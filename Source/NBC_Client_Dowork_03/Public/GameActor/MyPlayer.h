@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "MyPlayer.generated.h"
 
+class AMyBaseWeapon;
 struct FInputActionValue;
 class UCameraComponent;
 class USpringArmComponent;
@@ -24,12 +25,17 @@ protected:
 	TObjectPtr<USkeletalMeshComponent> SkeletalMeshComp;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Weapon")
 	TSubclassOf<AActor> WeaponClass;
-	
+	UPROPERTY()
+	TObjectPtr<AMyBaseWeapon> WeaponInst;
 	
 	void EquipWeapon();
 	void Move(const FInputActionValue& Value);
 	void Rotate(const FInputActionValue& Value);
 	void Attack();
+	void AddGunRecoil();
+private:
+	float RemainRecoilPitch;
+	float RecoilSpeed;
 public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
