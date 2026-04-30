@@ -3,6 +3,12 @@
 
 AMyPlayerController::AMyPlayerController()
 {
+}
+
+void AMyPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+	
 	if (ULocalPlayer* LocalPlayer = Cast<ULocalPlayer>(GetLocalPlayer()))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* SubSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())

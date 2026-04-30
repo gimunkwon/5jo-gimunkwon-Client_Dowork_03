@@ -22,5 +22,7 @@ public:
 	TObjectPtr<UInputAction> IA_Rotate;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Input")
 	TObjectPtr<UInputAction> IA_Attack;
-	
+
+protected:
+	virtual void BeginPlay() override;
 };
