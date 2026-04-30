@@ -4,8 +4,13 @@
 
 AMyBaseWeapon::AMyBaseWeapon()
 {
-	
 	PrimaryActorTick.bCanEverTick = true;
+	
+	SceneComp = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComponent"));
+	RootComponent = SceneComp;
+	
+	SkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
+	SkeletalMeshComponent->SetupAttachment(SceneComp);
 }
 
 

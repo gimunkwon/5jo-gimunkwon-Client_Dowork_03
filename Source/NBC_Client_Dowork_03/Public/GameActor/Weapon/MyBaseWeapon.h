@@ -10,14 +10,16 @@ class NBC_CLIENT_DOWORK_03_API AMyBaseWeapon : public AActor
 	GENERATED_BODY()
 
 public:
-	
 	AMyBaseWeapon();
-
+	
+	FORCEINLINE USkeletalMeshComponent* GetWeaponMesh() const {return SkeletalMeshComponent;}
 protected:
-	
 	virtual void BeginPlay() override;
-
-public:
 	
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Mesh")
+	TObjectPtr<USceneComponent> SceneComp;
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Mesh")
+	TObjectPtr<USkeletalMeshComponent> SkeletalMeshComponent;
+public:
 	virtual void Tick(float DeltaTime) override;
 };
