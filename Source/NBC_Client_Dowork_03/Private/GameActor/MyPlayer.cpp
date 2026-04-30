@@ -59,12 +59,32 @@ void AMyPlayer::EquipWeapon()
 
 void AMyPlayer::Move(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemp,Warning,TEXT("Move On!!"));
+	// UE_LOG(LogTemp,Warning,TEXT("Move On!!"));
+	FVector2D Dir = Value.Get<FVector2D>();
+	
+	if (!FMath::IsNearlyZero(Dir.X))
+	{
+		AddMovementInput(GetActorForwardVector(),Dir.X);
+	}
+	if (!FMath::IsNearlyZero(Dir.Y))
+	{
+		AddMovementInput(GetActorRightVector(),Dir.Y);
+	}
+	
 }
 
 void AMyPlayer::Rotate(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemp,Warning,TEXT("Rotate On!!"));
+	// UE_LOG(LogTemp,Warning,TEXT("Rotate On!!"));
+	FVector2D Dir = Value.Get<FVector2D>();
+	if (!FMath::IsNearlyZero(Dir.X))
+	{
+		AddControllerPitchInput(Dir.X);
+	}
+	if (!FMath::IsNearlyZero(Dir.Y))
+	{
+		AddControllerYawInput(Dir.Y);
+	}
 }
 
 void AMyPlayer::Attack()
