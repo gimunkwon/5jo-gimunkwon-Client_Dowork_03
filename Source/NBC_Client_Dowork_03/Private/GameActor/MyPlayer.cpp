@@ -3,8 +3,6 @@
 #include "Camera/CameraComponent.h"
 #include "NBC_Client_Dowork_03/Public/GameActor/Weapon/MyBaseWeapon.h"
 #include "EnhancedInputComponent.h"
-#include "KismetTraceUtils.h"
-#include "Kismet/KismetSystemLibrary.h"
 #include "NBC_Client_Dowork_03/Public/GameActor/Controller/MyPlayerController.h"
 
 
