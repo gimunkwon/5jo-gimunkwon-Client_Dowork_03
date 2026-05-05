@@ -3,6 +3,7 @@
 
 
 ABaseTemplateWeapon::ABaseTemplateWeapon()
+	: WeaponStat()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
