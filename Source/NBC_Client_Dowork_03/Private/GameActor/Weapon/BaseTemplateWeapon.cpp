@@ -32,7 +32,7 @@ void ABaseTemplateWeapon::InitializeWeaponStat()
 	UE_LOG(LogTemp,Warning,TEXT("InitializeWeaponStat"));
 }
 
-void ABaseTemplateWeapon::Fire()
+void ABaseTemplateWeapon::Fire(APlayerCameraManager* CameraManager)
 {
 	UE_LOG(LogTemp,Warning,TEXT("Fire!!"));
 }

@@ -37,7 +37,7 @@ protected:
 	FBaseTemplateWeaponStat WeaponStat;
 	
 	virtual void InitializeWeaponStat();
-	virtual void Fire();
+	virtual void Fire(APlayerCameraManager* CameraManager);
 	virtual void Reload();
 public:
 	virtual void Tick(float DeltaTime) override;
