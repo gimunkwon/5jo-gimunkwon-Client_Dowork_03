@@ -10,14 +10,14 @@ class NBC_CLIENT_DOWORK_03_API ABaseTemplateWeapon : public AActor
 	GENERATED_BODY()
 
 public:
-	
 	ABaseTemplateWeapon();
-
 protected:
-	
 	virtual void BeginPlay() override;
-
-public:
 	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Mesh")
+	TObjectPtr<USceneComponent> SceneComp;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Mesh")
+	TObjectPtr<USkeletalMeshComponent> SkeletalMeshComp;
+public:
 	virtual void Tick(float DeltaTime) override;
 };

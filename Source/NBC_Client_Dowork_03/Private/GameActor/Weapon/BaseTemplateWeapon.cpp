@@ -4,15 +4,19 @@
 
 ABaseTemplateWeapon::ABaseTemplateWeapon()
 {
-	
 	PrimaryActorTick.bCanEverTick = true;
+	
+	SceneComp = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComponent"));
+	RootComponent = SceneComp;
+	
+	SkeletalMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
+	SkeletalMeshComp->SetupAttachment(RootComponent);
 }
 
 
 void ABaseTemplateWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 
