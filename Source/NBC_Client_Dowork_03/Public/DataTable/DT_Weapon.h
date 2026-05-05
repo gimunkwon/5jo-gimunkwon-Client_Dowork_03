@@ -20,4 +20,12 @@ struct FMyWeapon : public FTableRowBase
 	float RemainRecoilPitch;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="WeaponStat")
 	float RecoilSpeed;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="WeaponStat")
+	int32 AmmoInClip;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="WeaponStat")
+	int32 MaxAmmo;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="WeaponStat")
+	float AttackDamage;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="WeaponStat")
+	float FireRate;
 };
