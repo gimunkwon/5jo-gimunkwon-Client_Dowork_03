@@ -140,12 +140,14 @@ void AMyPlayer::Attack()
 
 void AMyPlayer::AddGunRecoil()
 {
+	//TODO:: 총기 액터쪽으로 리팩토링
 	WeaponInst->BaseCoilPitch += WeaponInst->RemainCoilPitch;
 	UE_LOG(LogTemp,Warning,TEXT("RemainColiPitch %f"),WeaponInst->BaseCoilPitch);
 }
 
 void AMyPlayer::InterpRotationByReCoil(float DeltaTime)
 {
+	//TODO:: 총기 액터쪽으로 리팩토링
 	if (WeaponInst->BaseCoilPitch > 0.f)
 	{
 		float RecoilStep = FMath::FInterpTo(0.f,WeaponInst->BaseCoilPitch,DeltaTime,WeaponInst->RecoilSpeed);
