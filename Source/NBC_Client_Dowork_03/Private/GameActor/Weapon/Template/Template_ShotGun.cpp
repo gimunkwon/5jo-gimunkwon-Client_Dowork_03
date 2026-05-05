@@ -36,14 +36,19 @@ void ATemplate_ShotGun::InitializeWeaponStat()
 
 void ATemplate_ShotGun::Fire(APlayerCameraManager* CameraManager)
 {
+	
+	
 	Super::Fire(CameraManager);
-	
-	
 }
 
 void ATemplate_ShotGun::Reload()
 {
 	Super::Reload();
+}
+
+void ATemplate_ShotGun::AddGunRecoil()
+{
+	Super::AddGunRecoil();
 }
 
 

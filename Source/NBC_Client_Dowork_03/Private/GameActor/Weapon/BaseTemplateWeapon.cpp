@@ -35,11 +35,17 @@ void ABaseTemplateWeapon::InitializeWeaponStat()
 void ABaseTemplateWeapon::Fire(APlayerCameraManager* CameraManager)
 {
 	UE_LOG(LogTemp,Warning,TEXT("Fire!!"));
+	AddGunRecoil();
 }
 
 void ABaseTemplateWeapon::Reload()
 {
 	UE_LOG(LogTemp,Warning,TEXT("Reload!!"));
+}
+
+void ABaseTemplateWeapon::AddGunRecoil()
+{
+	UE_LOG(LogTemp,Warning,TEXT("GunRecoil has been added"));
 }
 
 

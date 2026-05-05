@@ -39,6 +39,7 @@ protected:
 	virtual void InitializeWeaponStat();
 	virtual void Fire(APlayerCameraManager* CameraManager);
 	virtual void Reload();
+	virtual void AddGunRecoil();
 public:
 	virtual void Tick(float DeltaTime) override;
 };
