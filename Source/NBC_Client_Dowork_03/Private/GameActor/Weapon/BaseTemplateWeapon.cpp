@@ -17,11 +17,29 @@ ABaseTemplateWeapon::ABaseTemplateWeapon()
 void ABaseTemplateWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	InitializeWeaponStat();
 }
-
 
 void ABaseTemplateWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
+
+void ABaseTemplateWeapon::InitializeWeaponStat()
+{
+	UE_LOG(LogTemp,Warning,TEXT("InitializeWeaponStat"));
+}
+
+void ABaseTemplateWeapon::Fire()
+{
+	UE_LOG(LogTemp,Warning,TEXT("Fire!!"));
+}
+
+void ABaseTemplateWeapon::Reload()
+{
+	UE_LOG(LogTemp,Warning,TEXT("Reload!!"));
+}
+
+
 
