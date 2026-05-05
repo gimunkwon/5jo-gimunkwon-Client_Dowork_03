@@ -34,6 +34,8 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="DataTable")
 	FDataTableRowHandle BaseWeaponStatRowHandle;
 	
+	FBaseTemplateWeaponStat WeaponStat;
+	
 	virtual void InitializeWeaponStat();
 	virtual void Fire();
 	virtual void Reload();
