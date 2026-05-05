@@ -13,6 +13,10 @@ public:
 	ATemplate_ShotGun();
 protected:
 	virtual void BeginPlay() override;
+	
+	virtual void InitializeWeaponStat() override;
+	virtual void Fire(APlayerCameraManager* CameraManager) override;
+	virtual void Reload() override;
 public:
 	virtual void Tick(float DeltaTime) override;
 };
