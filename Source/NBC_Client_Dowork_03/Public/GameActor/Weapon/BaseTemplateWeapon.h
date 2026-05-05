@@ -14,6 +14,9 @@ struct FBaseTemplateWeaponStat
 	float MaxDistance;
 	float Damage;
 	float FireRate;
+	float BaseCoilPitch;
+	float RemainCoilPitch;
+	float RecoilSpeed;
 };
 
 
