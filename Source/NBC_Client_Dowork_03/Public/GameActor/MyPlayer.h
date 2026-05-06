@@ -4,6 +4,8 @@
 #include "GameFramework/Character.h"
 #include "MyPlayer.generated.h"
 
+class ATemplate_ShotGun;
+class ABaseTemplateWeapon;
 class AMyBaseWeapon;
 struct FInputActionValue;
 class UCameraComponent;
@@ -26,13 +28,12 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Weapon")
 	TSubclassOf<AActor> WeaponClass;
 	UPROPERTY()
-	TObjectPtr<AMyBaseWeapon> WeaponInst;
+	TObjectPtr<ABaseTemplateWeapon> WeaponInst;
 	
 	void EquipWeapon();
 	void Move(const FInputActionValue& Value);
 	void Rotate(const FInputActionValue& Value);
 	void Attack();
-	void AddGunRecoil();
 	void InterpRotationByReCoil(float DeltaTime);
 
 public:
