@@ -42,6 +42,7 @@ void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 			if (PC->IA_Move) EnhancedInputComp->BindAction(PC->IA_Move,ETriggerEvent::Triggered,this,&AMyPlayer::Move);
 			if (PC->IA_Rotate) EnhancedInputComp->BindAction(PC->IA_Rotate,ETriggerEvent::Triggered,this,&AMyPlayer::Rotate);
 			if (PC->IA_Attack) EnhancedInputComp->BindAction(PC->IA_Attack,ETriggerEvent::Started,this,&AMyPlayer::Attack);
+			if (PC->IA_ZoomingAimSet) EnhancedInputComp->BindAction(PC->IA_ZoomingAimSet, ETriggerEvent::Started,this, &AMyPlayer::ZoomingAimSet);
 		}
 	}
 }
@@ -106,4 +107,9 @@ void AMyPlayer::Attack()
 void AMyPlayer::InterpRotationByReCoil(float DeltaTime)
 {
 	AddControllerPitchInput(-WeaponInst->GetRecoilStep(DeltaTime));
+}
+
+void AMyPlayer::ZoomingAimSet()
+{
+	
 }

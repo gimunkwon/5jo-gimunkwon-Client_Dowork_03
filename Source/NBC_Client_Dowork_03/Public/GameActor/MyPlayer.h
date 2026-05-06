@@ -35,6 +35,7 @@ protected:
 	void Rotate(const FInputActionValue& Value);
 	void Attack();
 	void InterpRotationByReCoil(float DeltaTime);
+	void ZoomingAimSet();
 
 public:
 	virtual void Tick(float DeltaTime) override;

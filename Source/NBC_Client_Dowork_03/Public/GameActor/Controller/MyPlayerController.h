@@ -22,6 +22,8 @@ public:
 	TObjectPtr<UInputAction> IA_Rotate;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Input")
 	TObjectPtr<UInputAction> IA_Attack;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Input")
+	TObjectPtr<UInputAction> IA_ZoomingAimSet;
 
 protected:
 	virtual void BeginPlay() override;
