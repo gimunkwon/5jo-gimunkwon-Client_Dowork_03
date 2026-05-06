@@ -48,5 +48,9 @@ void ABaseTemplateWeapon::AddGunRecoil()
 	UE_LOG(LogTemp,Warning,TEXT("GunRecoil has been added"));
 }
 
+float ABaseTemplateWeapon::GetRecoilStep(float DeltaTime)
+{
+	return 0.f;	
+}
 
 

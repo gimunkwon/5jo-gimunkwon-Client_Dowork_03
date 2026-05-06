@@ -20,14 +20,15 @@ class NBC_CLIENT_DOWORK_03_API ATemplate_ShotGun : public ABaseTemplateWeapon
 
 public:
 	ATemplate_ShotGun();
-protected:
-	virtual void BeginPlay() override;
 	
+	virtual float GetRecoilStep(float DeltaTime) override;
 	virtual void InitializeWeaponStat() override;
 	virtual void Fire(APlayerCameraManager* CameraManager) override;
 	virtual void Reload() override;
 	virtual void AddGunRecoil() override;
 	
+protected:
+	virtual void BeginPlay() override;
 	FTemplate_ShotGunStat ShotGunStat;
 public:
 	virtual void Tick(float DeltaTime) override;

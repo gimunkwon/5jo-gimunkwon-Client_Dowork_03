@@ -36,6 +36,7 @@ void ATemplate_ShotGun::InitializeWeaponStat()
 		ShotGunStat.SpreadAngle = WeaponStats->SpreadAngle;
 		ShotGunStat.RemainCoilPitch = WeaponStats->RemainRecoilPitch;
 		ShotGunStat.RecoilSpeed = WeaponStats->RecoilSpeed;
+		ShotGunStat.BaseCoilPitch = 0.f;
 	}
 }
 
@@ -83,6 +84,11 @@ void ATemplate_ShotGun::AddGunRecoil()
 {
 	Super::AddGunRecoil();
 	
+	ShotGunStat.AddGunRecoil();
+	UE_LOG(LogTemp,Warning,TEXT("AddGunRecoli Call"));
 }
 
-
+float ATemplate_ShotGun::GetRecoilStep(float DeltaTime)
+{
+	return ShotGunStat.GetRecoilStep(DeltaTime);
+}
